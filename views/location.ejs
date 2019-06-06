@@ -1,0 +1,25 @@
+<% include ./partials/header %>
+<h1>Location Info</h1>
+
+
+
+
+<style>
+    body{
+        text-align: center;
+        background-color: #f4e542;
+    }
+    
+    #demo{
+        padding-top: 100px;
+    }
+</style>
+<p id="demo"></p>
+
+<script>
+document.getElementById("demo").innerHTML = 
+"The full URL of this page is:<br>" + window.location.href + " <br>Page hostname is " + window.location.hostname
++ "<br>Page path is " + window.location.pathname + "<br>Page protocol is " + window.location.protocol;;
+</script>
+
+<% include ./partials/footer %>

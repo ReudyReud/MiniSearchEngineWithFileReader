@@ -1,0 +1,65 @@
+
+.navbar-brand{
+    color: purple; 
+}
+
+/*body{*/
+/*    margin: 0;*/
+/*    padding: 0;*/
+/*}*/
+
+.middle{
+    position: absolute;
+    top: 30%;
+    height: 30%;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    
+}
+.text{
+    font-size: 100px;
+    font-weight: 900;
+}
+.middle{
+    margin-bottom: 32%;
+    
+    
+}
+.letters{
+    
+    padding: 0px 45px;
+}
+.jumbotron{
+    height: 400px;
+    background-color: green;
+}
+
+#bar {
+    border-radius: 25px;
+    border: 2px solid #73AD21;
+    position: absolute;
+    transform: translateY(-32px);
+    margin-left: 32%;
+    margin-bottom: 100px;
+    height: 8%;
+    width: 26em;
+    display: flex;
+    justify-content: center;
+}
+
+
+.btn{
+    position: absolute;
+    font-size: 25px;
+    transform: translateY(-61%);
+    margin-left: 14%;
+    
+}
+.btn:hover{
+    font-size: 35px;
+    
+}
+#content{
+    text-align: center; 
+}

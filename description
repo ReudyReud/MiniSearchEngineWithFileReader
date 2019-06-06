@@ -1,0 +1,20 @@
+middleware - (Might not be needed)
+models - Database models (Not Important right now)
+*public - dir contains scripts(JavaScript) and stylesheets(css)
+routes - websites path 
+==================================
+**views - html files
+    partials - contains header, and footer
+===================================
+app.js - opens server
+
+Two ways to run:
+node app.js
+nodemon
+
+===========
+TODO
+===========
+Problem:
+    Website looks different on different browsers. 
+-Make website responsive

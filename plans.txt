@@ -1,0 +1,34 @@
+For Phase 2
+    Add navigator and location
+For Phase 3
+    Structure Code 
+        - Arrange each distinct results as an object
+        - Create an array of objects
+        - Get access to selected objects
+        Download into file based on selected files
+        Selected objects are downloaded as file extension selected 
+        Make download work for multiple objects
+
+=======================
+4/30/19 (Phase 3)
+- Upload for all file types are done
+Missing download functionality for all file types (Currently Only Have JSON)
+===================================================================
+Phase 4 
+currently functional, need to make some slight tweaks
+
+===========================================================
+Phase 5
+Start Looking into databases like mongodb
+==========================
+NEW - Download must work for all search results type. 
+    Need to finalize each download type appropriately
+    
+    
+<% data["items"].forEach(function(searches){ %>
+    <input type="checkbox">
+    <a href = <%=searches["link"] %> ><%=searches["title"] %>  </a>
+    <h6><%=searches["link"] %></h6>
+    <p><%=searches["snippet"] %></p>
+<% }) %>
+    

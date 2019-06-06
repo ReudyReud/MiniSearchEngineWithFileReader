@@ -1,0 +1,31 @@
+<% include ./partials/header %>
+  <h1>Window Info</h1> 
+    <style>
+        body{
+            text-align: center;
+            background-color: pink;
+        }
+        
+        #demo{
+            padding-top: 50px;
+            text-align: center;
+            font-size: 80px;
+        }
+    </style>
+
+<p id="demo"></p>
+
+<script>
+var w = window.innerWidth
+|| document.documentElement.clientWidth
+|| document.body.clientWidth;
+
+var h = window.innerHeight
+|| document.documentElement.clientHeight
+|| document.body.clientHeight;
+
+var x = document.getElementById("demo");
+x.innerHTML = "Browser inner window width: " + w + "<br> Height: " + h + ".";
+</script>
+
+<% include ./partials/footer %>

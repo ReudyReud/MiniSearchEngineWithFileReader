@@ -1,0 +1,27 @@
+<% include ./partials/header %>
+<h1>Navigator</h1>
+
+
+<li id = "info1"></li>
+<li id = "info2"></li>
+<li id = "info3"></li>
+<li id = "info4"></li>
+<li id = "info5"></li>
+<li id = "info6"></li>
+
+<script>
+  document.getElementById("info1").innerHTML = "Browser Name: " + navigator.appName;
+ document.getElementById("info2").innerHTML = "Version Info: " + navigator.appVersion;
+ document.getElementById("info3").innerHTML = "Browser's Engine Name: " + navigator.product;
+ document.getElementById("info4").innerHTML = "User-agent header sent: " + navigator.userAgent;
+ document.getElementById("info5").innerHTML = "Language of the browser: " + navigator.language;
+ document.getElementById("info6").innerHTML = "Platform: " + navigator.platform;
+ 
+ 
+
+   
+    
+</script>
+
+
+<% include ./partials/footer %>

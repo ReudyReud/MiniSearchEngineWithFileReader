@@ -1,0 +1,26 @@
+<% include ./partials/header %>
+
+<h1>Screen Info</h1>
+    <style>
+        body{
+            text-align: center;
+            background-color: cyan;
+        }
+        
+        #demo{
+            padding-top: 50px;
+            text-align: center;
+            font-size: 70px;
+        }
+    </style>
+
+<p id="demo"></p>
+
+<script>
+document.getElementById("demo").innerHTML =
+"Screen Height: " + screen.height + "\n" + "<br>Screen width is " + screen.width;
+
+</script>
+
+
+<% include ./partials/footer %>

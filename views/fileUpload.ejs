@@ -1,0 +1,385 @@
+<% include ./partials/header %>
+
+
+<h1 >File</h1>
+
+
+<form action="/file">
+  Choose File: <input id = "files" type="file"/>
+</form>
+
+
+<!--<form action="/action_page.php">-->
+<!--  <input id= "checker" type="hidden">-->
+<!--<a id = "link"></a> <!--title-->
+<!--<h6 id = "smallLink"></h6> <!--link(title)-->
+<!--<p id = "descr" style=" color: blue"></p> <!--description-->
+
+<input type="checkbox" id = "checkAll" onClick="toggle(this)" style="display:none" > 
+<span id = "checkAlert"></span>
+<form>
+<input type="radio" id = "jsonCheck" name= "no" style="display:none" > 
+<span id = "jsonTxt"></span>
+
+<input type="radio" id = "csvCheck" name= "no" style="display:none" > 
+<span id = "csvTxt"></span>
+
+<input type="radio" id = "xmlCheck" name= "no" style="display:none" > 
+<span id = "xmlTxt"></span>
+
+</form>
+
+<br/>
+
+<form onsubmit= "myFile()">
+ <input type="submit" value="Download">
+ <a id="downloadAnchorElem" style="display:none"></a>
+</form>
+
+
+ <script>
+
+ 
+//  var x2js = new X2JS();
+
+var objectList =[];
+
+ 
+var title = [];
+var url = [];
+var desc = [];
+var fileInput ;
+var extension ;
+
+
+
+
+
+//========================
+
+function toggle(source) {
+  checkboxes = document.getElementsByName('foo');
+  for(var i=0, n=checkboxes.length;i<n;i++) {
+    checkboxes[i].checked = source.checked;
+  }
+}
+
+  //=============================  
+    function onChange(event) {
+        var reader = new FileReader();
+        reader.onload = onReaderLoad;
+        reader.readAsText(event.target.files[0]);
+    }
+
+    function onReaderLoad(event){
+        //console.log(event.target.result); // Reads the file
+        
+        // IF (CHECK FILE EXTENSION) IS JSON DO BELOW
+        //==================XML START
+        var readFile = event.target.result; 
+        fileInput = document.getElementById("files").value;
+        extension = fileInput.split('.').pop();
+        
+        
+        if(extension === "xml"){
+            
+            var parser, xmlDoc;
+             parser = new DOMParser();
+//              var text = <bookstore><book> 
+// <title>Everyday Italian</title>
+// <author>Giada De Laurentiis</author> 
+// <year>2005</year>
+// </book></bookstore>;
+            xmlDoc = parser.parseFromString(readFile,"text/xml");
+            
+            var xtitleLength = xmlDoc.getElementsByTagName("title").length; 
+            var xurlLength = xmlDoc.getElementsByTagName("url").length;
+            var xdescLength = xmlDoc.getElementsByTagName("description").length; 
+             
+             //console.log(xmlDoc.getElementsByTagName("title").length);
+             for(var i = 0; i < xtitleLength; i++)
+                title.push(xmlDoc.getElementsByTagName("title")[i].childNodes[0].nodeValue);
+                
+            for(var i = 0; i < xurlLength; i++)
+                url.push(xmlDoc.getElementsByTagName("url")[i].childNodes[0].nodeValue);
+            for(var i = 0; i < xdescLength; i++)
+                desc.push(xmlDoc.getElementsByTagName("description")[i].childNodes[0].nodeValue);
+                
+             
+      
+            // document.getElementById("demotest").innerHTML = title[0];
+            
+        
+        
+        }
+        
+         //============================XML END 
+         
+         
+         
+         //====================================CSV START 
+         
+         else if(extension === "csv"){
+              var splitter = readFile.split(/[\n,]/);
+              var csvLength = splitter.length; 
+              
+              for(var i = 0; i < splitter.length; i+=3)
+                title.push(splitter[i]);
+                
+              for(var i = 1; i < splitter.length; i+=3)
+                url.push(splitter[i]);
+              
+              
+              for(var i = 2; i < splitter.length; i+=3)
+                desc.push(splitter[i]); 
+         }
+         
+         
+         
+         
+         //====================================CSV END 
+        
+        else{
+        
+        
+        
+      
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+       
+        var obj = JSON.parse(readFile);
+        // var test = document.getElementById("testing").innerHTML = obj; 
+      
+        obj["Result"].forEach(function(m){
+            var titles = m["title"];
+            var urls = m["url"];
+            var descs = m["description"]; 
+            
+            //title+=titles + " ";
+            title.push(titles); 
+            // url+=urls;
+            url.push(urls);
+            // desc+=descs;
+            desc.push(descs); 
+            //console.log(ans);
+        
+              
+        })
+        }//end else
+        document.getElementById("checkAlert").innerHTML = "Check All";
+        document.getElementById("checkAll").style.display = 'inline'; 
+        
+        document.getElementById("jsonTxt").innerHTML = "JSON";
+        document.getElementById("jsonCheck").style.display = 'inline'; 
+        
+        document.getElementById("csvTxt").innerHTML = "CSV";
+        document.getElementById("csvCheck").style.display = 'inline'; 
+        
+        document.getElementById("xmlTxt").innerHTML = "XML";
+        document.getElementById("xmlCheck").style.display = 'inline'; 
+        
+    // Object is displayed based on it's inner html
+// Array Dynamically creates all tags ===============
+    for(var i =0; i < title.length; i++){
+            var x = document.createElement("a");
+            var z = x.setAttribute("id","link"+i);
+            var m = x.setAttribute("href",url[i]);
+            
+            var hSix = document.createElement("h6");
+            var hSixId = hSix.setAttribute("id", "smallLink"+i);
+            
+            var description = document.createElement("p");
+            var descriptionId = description.setAttribute("id", "descr"+i); 
+            
+            var input = document.createElement("input");
+            var inputId = input.setAttribute("id", "checker"+i); 
+            var inputName = input.setAttribute("name", "foo");
+            
+            
+          $('body').append(input);
+          $('body').append(x);
+          $('body').append(hSix);
+          $('body').append(description);
+    }
+// =================================================================
+       
+         // Main displayer
+         for(var i = 0; i < title.length; i++){
+            objectList.push(  document.getElementById("checker"+i).innerHTML = {
+            checkbox: document.getElementById("checker"+i).setAttribute("type","checkbox"),
+            title: document.getElementById("link"+i).innerHTML = title[i],
+            // test: x.setAttribute("href",url[i]),
+            url: document.getElementById("smallLink"+i).innerHTML = url[i],
+            description: document.getElementById("descr"+i).innerHTML = desc[i],
+            
+            })
+            //document.createElement("br");
+         }//endfor
+         
+      
+     //console.log(objectList[0]);
+     
+        // for(var i = 0; i < objectList; i++){
+        //     if(objectList[i].document.getElementById("checker"+i).checked){
+        //         console.log(document.getElementById("checker"+i).title);
+        //     }
+        //}
+        
+    
+    }
+            
+           
+    
+
+    
+  
+    document.getElementById('files').addEventListener('change', onChange);
+
+    // function downloader(){
+    //             // var newDiv = document.createElement("a"); 
+    //             console.log('ok ' + Object.values(checked));
+    //         }
+    
+    //===Plan --> Create the a tags, goal is to download multiple a tags
+
+   function myFile(){ //Downloads JSON
+   
+        var jsonIsChecked = document.getElementById("jsonCheck").checked; 
+        var csvIsChecked = document.getElementById("csvCheck").checked; 
+        var xmlIsChecked = document.getElementById("xmlCheck").checked; 
+        
+        // for(var i = 0; i < objectList.length; i++){
+        // if(document.getElementById("checker"+i).checked)
+        // console.log(objectList[i]);
+        // alert("hi");
+        // }        
+        
+        // for(var i = 0; i < objectList.length; i++){
+        //     if(document.getElementById("checker"+i).checked)
+        //         selectedObjects
+        // }
+
+       
+        // for(var i =0; i < objectList.length; i++)
+        //     appn.push(objectList[i]);
+        //     dataEr["Result"] = appn;
+        
+        // var dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(dataEr));
+        
+      
+//XML START==========
+       if(xmlIsChecked){
+           
+           
+           
+          var objectProp = Object.getOwnPropertyNames(objectList[0]); 
+           // console.log(); // 1,2,3
+           var xmlString = '<?xml version="1.0" encoding="UTF-8"?><results>'; 
+           
+           for(var i = 0; i < objectList.length; i++){
+            if(document.getElementById("checker"+i).checked){
+           xmlString+='<result>';
+           xmlString+="<" + objectProp[1]+ ">" + objectList[i].title + "</" + objectProp[1] + ">";
+           xmlString+="<" + objectProp[2]+ ">" + objectList[i].url + "</" + objectProp[2] + ">" ; 
+           xmlString+="<" + objectProp[3]+ ">" + objectList[i].description + "</" + objectProp[3] + ">"; 
+           xmlString+='</result>';
+           }
+           }
+           xmlString+='</results>';
+            // alert(objectList[0]);
+            
+        var dlAnchorElem = document.getElementById('downloadAnchorElem');
+        dlAnchorElem.setAttribute("href", "data:text/plain,"+encodeURIComponent(xmlString)); //Href cha
+        dlAnchorElem.setAttribute("download", "XML.xml");
+        dlAnchorElem.click();
+            
+  
+        }
+ 
+
+//XML  END===
+
+
+//CSV START===============
+    else if(csvIsChecked){
+       //console.log('Working on it');
+        //  var objectProp = Object.getOwnPropertyNames(objectList[0]); 
+           // console.log(); // 1,2,3
+           
+        //   console.log(objectList[0].title + "," + objectList[0].url + "," + objectList[0].description); 
+        //     alert(objectList[0]);
+            
+            var csvOb = '';
+            
+            for(var i = 0; i < objectList.length; i++)
+                if(document.getElementById("checker"+i).checked)
+                    csvOb +=  objectList[i].title + "," + objectList[i].url + "," + objectList[i].description + "\n"; 
+                
+                var csvOb2 = csvOb.trim(); 
+        
+            // alert(objectList[0]);
+        
+        var dlAnchorElem = document.getElementById('downloadAnchorElem');
+        dlAnchorElem.setAttribute("href", "data:text/plain,"+encodeURIComponent(csvOb2)); //Href cha
+        dlAnchorElem.setAttribute("download", "CSVFile.csv");
+        dlAnchorElem.click();
+  
+        }
+
+//CSV END==============
+        else if(jsonIsChecked){
+            var dataEr = {}//Should be an array, where each i is an object
+            var appn = [];
+            for(var i =0; i < objectList.length; i++)
+            if(document.getElementById("checker"+i).checked)
+                appn.push(objectList[i]);
+                
+            dataEr["Result"] = appn;
+        
+        var dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(dataEr));
+        
+        var dlAnchorElem = document.getElementById('downloadAnchorElem');
+        dlAnchorElem.setAttribute("href", dataStr ); //Href cha
+        dlAnchorElem.setAttribute("download", "JSONFile.json");
+        dlAnchorElem.click();
+        }
+        
+
+
+
+   }
+ 
+
+
+
+</script>
+
+
+
+<!--var obj = {a: 123, b: "4 5 6"};-->
+<!--var data = "text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(obj));-->
+
+<!--var a = document.createElement('a');-->
+<!--a.href = 'data:' + data;-->
+<!--a.download = 'data.json';-->
+<!--a.innerHTML = 'download JSON';-->
+
+<!--var container = document.getElementById('container');-->
+<!--container.appendChild(a);-->
+
+
+
+
+<% include ./partials/footer %>
